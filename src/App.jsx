@@ -6,6 +6,7 @@ function App() {
   const [audioUrl,setAudioUrl] = useState("")
 
   const handleConvert = async () => {
+    console.log(import.meta.env.VITE_HUGGING_FACE_API_KEY)
     if (!text) {
       alert("Please enter some text");
       return; 
@@ -13,7 +14,7 @@ function App() {
   
     try {
       const response = await fetch(
-        '/api/models/facebook/fastspeech2-en-ljspeech', // TTS model
+        '/api/models/espnet/kan-bayashi_ljspeech_vits', // TTS model
         {
           method: 'POST',
           headers: {
