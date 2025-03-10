@@ -5,7 +5,7 @@ function App() {
   const [text, setText] = useState("")
   const [audioUrl,setAudioUrl] = useState("")
 
-  const handleConvert = async () => {
+/*   const handleConvert = async () => {
     console.log(import.meta.env.VITE_HUGGING_FACE_API_KEY)
     if (!text) {
       alert("Please enter some text");
@@ -38,7 +38,32 @@ function App() {
       console.error(error);
       alert("Something went wrong. Please try again");
     }
-  };
+  }; */
+
+  const handleConvert = async() => {
+    try {
+      const response = await fetch(
+        "/api/hf-inference/models/espnet/kan-bayashi_ljspeech_vits",
+        {
+          headers: {
+            'Authorization': `Bearer ${import.meta.env.VITE_HUGGING_FACE_API_KEY}`,
+            "Content-Type": "application/json",
+          },
+          method: "POST",
+          body: JSON.stringify(text),
+        }
+      );
+    
+      const blob = await response.blob();
+      const audioUrl = URL.createObjectURL(blob);
+      setAudioUrl(audioUrl)     
+    } 
+    catch (error) 
+    {
+      console.error(error)
+    }
+  }
+  
 
   return (
     <div className='App'>
